@@ -1,0 +1,19 @@
+{
+  "name": "CASPER",
+  "version": "1.0",
+  "description": "Encrypts your internet connection for safe and private browsing. Hides your digital footprint to enhance your anonimity",
+  "icons": {
+    "16": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["index.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "host_permissions": ["<all_urls>"],
+  "manifest_version": 3
+}

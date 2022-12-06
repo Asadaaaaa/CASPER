@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CASPER</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js" integrity="sha512-0qU9M9jfqPw6FKkPafM3gy2CBAvUWnYVOfNPDYKVuRTel1PrciTj+a9P3loJB+j0QmN2Y0JYQmkBBS8W+mbezg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+  <style>
+    .Profile > .NIM {
+      width: fit-content;
+      height: fit-content;
+      display: flex;
+      gap: 5px;
+      line-height: 0;
+
+      margin: 0;
+      padding: 0;
+    }
+
+    .Profile > .NIM > p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .Profile > .Name {
+      width: fit-content;
+      height: fit-content;
+      display: flex;
+      gap: 5px;
+
+      line-height: 0;
+
+      margin: 0;
+      padding: 0;
+    }
+
+    .Passwords {
+      width: fit-content;
+      height: fit-content;
+
+      display: block;
+    }
+
+    .Passwords > .Column {
+      display: flex;
+    }
+
+    .Passwords > .Column > #password {
+      width: 100px;
+
+      border: solid black;
+
+      text-align: center;
+
+      margin: 0;
+      padding: 0;
+    }
+
+    .Passwords > .Column > #tries {
+      width: 100px;
+
+      border: solid black;
+
+      text-align: center;
+
+      margin: 0;
+      padding: 0;
+    }
+
+    .Passwords > .Data {
+      width: fit-content;
+      height: fit-content;
+      display: flex;
+    }
+
+    .Passwords > .Data > #password {
+      width: 100px;
+
+      border: solid black;
+
+      text-align: center;
+
+      margin: 0;
+      padding: 0;
+    }
+
+    .Passwords > .Data > #tries {
+      width: 100px;
+
+      border: solid black;
+
+      text-align: center;
+
+      margin: 0;
+      padding: 0;
+    }
+
+  </style>
+  <head>
+    <h1>Details Account</h1>
+  </head>
+  <main>
+    <div class="Profile">
+      <div class="NIM">
+        <p id="key">NIM:</p>
+        <p id="valueNIM"></p>
+      </div>
+      <div class="Name">
+        <p id="key">Name:</p>
+        <p id="valueName"></p>
+      </div>
+    </div>
+
+    <div class="Passwords" id="passwords"></div>
+  </main>
+
+  <script>
+    const url = new URL(window.location.href);
+    const searchParams = url.searchParams;
+    const profileNIM = document.getElementById('valueNIM');
+    const profileName = document.getElementById('valueName');
+    const passwords = document.getElementById('passwords')
+    let items = `
+      <div class="Column">
+        <p id="password">Password</p>
+        <p id="tries">Tries</p>
+      </div>
+      `
+    
+    profileNIM.innerText = searchParams.get('nim');
+    profileName.innerText = searchParams.get('name');
+
+    axios.get(`https://avast.ddns.net:3001/getAccount?nim=${searchParams.get('nim')}`).then((res) => {
+      res.data.passwords.forEach((val) => {
+        let item = `
+          <div id="data" class="Data">
+            <p id="password">${val.value}</p>
+            <p id="tries">${val.tries}</p>
+          </div>
+        `;
+        items += item;
+      });
+      passwords.innerHTML = items;
+    })
+  </script>
+</body>
+</html>
